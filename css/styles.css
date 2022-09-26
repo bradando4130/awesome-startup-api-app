@@ -18,13 +18,13 @@ body {
   font-family: "Nunito", sans-serif;
   text-align: center;
   /* background texture created with https://10015.io/tools/css-background-pattern-generator */
-  background: linear-gradient(135deg, #ac9ec5 25%, transparent 25%) -14px 0/
+  background: linear-gradient(135deg, #dbd6e4 25%, transparent 25%) -14px 0/
       28px 28px,
-    linear-gradient(225deg, rgba(172, 158, 197, 0.5) 25%, transparent 25%) -14px
+    linear-gradient(225deg, rgba(219, 214, 228, 0.5) 25%, transparent 25%) -14px
       0/ 28px 28px,
-    linear-gradient(315deg, #ac9ec5 25%, transparent 25%) 0 0/ 28px 28px,
-    linear-gradient(45deg, rgba(172, 158, 197, 0.5) 25%, #b5c7cb 25%) 0 0/ 28px 28px;
-  background-color: #b5c7cb;
+    linear-gradient(315deg, #dbd6e4 25%, transparent 25%) 0 0/ 28px 28px,
+    linear-gradient(45deg, rgba(219, 214, 228, 0.5) 25%, #dbdfe4 25%) 0 0/ 28px 28px;
+  background-color: #dbdfe4;
 }
 
 header {
