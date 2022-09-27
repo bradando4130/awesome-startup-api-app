@@ -1,5 +1,6 @@
 /* Global initialised variables */
-let employeesData = [];
+let employeesData = []; // variable to hold returned API results
+let currentEmployees = []; // variable to hold filtered employees currently displayed on screen
 const gallerySection = document.querySelector("#gallery");
 let modalIndex;
 
@@ -11,23 +12,28 @@ const urlAPI = `https://randomuser.me/api/?results=12&inc=name,picture,email,loc
  * fetch data =>
  * parse data to JSON =>
  * access results of return promise object =>
+ * store these results in employeesData =>
  * display employees to screen =>
  * catch error (if applicable)
  */
 fetch(urlAPI)
   .then((res) => res.json())
   .then((res) => res.results)
-  .then((data) => (employeesData = data))
-  .then((data) => displayEmployees(data))
+  .then((data) => (employeesData = data)) 
+  .then((employeesData) => displayEmployees(employeesData))
   .catch((err) => console.log(err));
 
 /**
  * Create html for each employee data object and append to page
  * in individual divs in a grid format
- * @param {Array} employeeData returned array of employees from API call
+ * @param {Array} array array of employees
  */
-const displayEmployees = (employeeData) => {
-  employeeData.forEach((employee, index) => {
+const displayEmployees = (arr) => {
+  // if currentEmployees is empty, initialise with employeesData
+  currentEmployees.length === 0 ? currentEmployees = employeesData : '';
+
+  gallerySection.innerHTML = "";
+  arr.forEach((employee, index) => {
     gallerySection.insertAdjacentHTML(
       "beforeend",
       `
@@ -45,6 +51,9 @@ const displayEmployees = (employeeData) => {
     );
   });
 };
+
+// call displayEmployees() with returned API results
+displayEmployees(employeesData);
 
 /**
  * When user clicks on employee, first checks if click is on employee .card container
@@ -67,12 +76,15 @@ gallerySection.addEventListener("click", (e) => {
 
 /**
  * Display a modal overlay for an employee on click for more detailed information
- * @param {number} index index of employee that has been clicked on from original results array
+ * @param {number} index index of employee that has been clicked on from current employees on screen
  */
 
 const createModal = (index) => {
-  // destructure to allocate variables
-  const { dob, email, location, name, phone, picture } = employeesData[index];
+  // destructure to allocate variables, if currentEmployees is undefined, use employeesData. prefer currentEmployees
+  const { dob, email, location, name, phone, picture } =
+    currentEmployees.length === 0
+      ? employeesData[index]
+      : currentEmployees[index];
   const date = new Date(dob.date);
 
   modalInfo.innerHTML = "";
@@ -107,11 +119,11 @@ const modalNxt = document.querySelector(".modal-next");
 
 /**
  * Toggle left and right between employees on the modal via interacting with modal buttons
- * achieved via toggling through modalIndex values
+ * achieved via toggling through modalIndex values of current employees
  */
 const toggleLeft = () => {
   if (modalIndex === 0) {
-    modalIndex = 11;
+    modalIndex = (currentEmployees.length - 1);
     createModal(modalIndex);
   } else {
     createModal((modalIndex -= 1));
@@ -119,7 +131,7 @@ const toggleLeft = () => {
 };
 
 const toggleRight = () => {
-  if (modalIndex === 11) {
+  if (modalIndex >= (currentEmployees.length - 1)) {
     modalIndex = 0;
     createModal(modalIndex);
   } else {
@@ -160,3 +172,41 @@ document.addEventListener("keydown", (e) => {
  * Close modal if clicking on x button
  */
 modalClose.addEventListener("click", () => hideModal());
+
+/**
+ * Search bar function to filter employees displayed
+ * crosscheck user input against name.first and name.last of each employee in employeeData array
+ * if searchInput is included in first or last name of employee, include in new array
+ * pass new array into displayEmployees()
+ */
+
+const searchInput = document.querySelector(".search-input");
+const searchSubmit = document.querySelector(".search-submit");
+
+const filterEmployees = () => {
+  const searchInputValue = document
+    .querySelector(".search-input")
+    .value.toLowerCase();
+  // normalise name to lower case
+  const filteredEmployees = employeesData.filter((employee) => {
+    const firstName = employee.name.first.toLowerCase();
+    const lastName = employee.name.last.toLowerCase();
+    return firstName.includes(searchInputValue) ||
+      lastName.includes(searchInputValue)
+      ? true
+      : false;
+  });
+  // update variable to hold current employees on screen
+  currentEmployees = filteredEmployees;
+
+  // pass filtered employees to displayEmployees()
+  displayEmployees(filteredEmployees);
+};
+
+// search input reset on page load
+searchInput.value = "";
+
+/**
+ * Event listener for search input
+ */
+searchInput.addEventListener("keyup", filterEmployees);
