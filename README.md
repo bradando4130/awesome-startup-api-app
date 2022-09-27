@@ -1,11 +1,18 @@
-<h1 align="center">Welcome to Awesome Startup API Requests 👋</h1>
+<h1 align="center">Welcome to Awesome Startup Employee API App 👋</h1>
 <p>
+  <img alt="Version" src="https://img.shields.io/badge/version-1.0-blue.svg?cacheSeconds=2592000" />
   <a href="https://www.mit.edu/~amini/LICENSE.md" target="_blank">
     <img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-yellow.svg" />
   </a>
 </p>
 
-> Application for a fictional company 'Awesome Startup' to allow employees a smart way to access other employees contact information.
+> App for a fictional startup compant to view employee contact details.
+> Built with JavaScript, this app will fetch random employee data from Random User Generator API and display to page. 
+> Employees can be filtered by name via a search bar input.
+> Employees can also be clicked on for a modal popup to display extra information, from this modal they can be toggled between using click buttons and keyboard arrow input.
+> Project completed as part of Treehouse Full-Stack JavaScript Techdegree. base CSS and HTML proveded by Treehouse, with small changes to CSS such as background texture and modal button look.
+
+### ✨ [Demo](https://bradando4130.github.io/awesome-startup-api-app)
 
 ## Author
 
