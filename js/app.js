@@ -209,4 +209,4 @@ searchInput.value = "";
 /**
  * Event listener for search input
  */
-searchInput.addEventListener("keyup", filterEmployees);
+searchInput.addEventListener("input", filterEmployees);
